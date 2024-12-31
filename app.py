@@ -74,7 +74,20 @@ if way == "Upload an image":
 
         progress.progress(100)
 
-        st.image(img, caption="Uploaded Image", use_column_width=True, class_="image-frame")
+        st.image(img, caption="Uploaded Image", use_column_width=True)
+
+        st.markdown("""
+    <style>
+        .uploaded-image {
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+        st.markdown(f'<img src="data:image/png;base64,{img}" class="uploaded-image" style="width:100%;" />', unsafe_allow_html=True)
+
+
         st.write(f"Predicted Emotion: {emotion}")
         st.success(f"Emotion: {emotion} detected!")
 
