@@ -1,3 +1,4 @@
+from io import BytesIO
 import streamlit as st
 from tensorflow.keras.models import load_model
 import numpy as np
@@ -58,8 +59,8 @@ elif way == "Record a video":
 
         video_file = st.camera_input("Take a picture")
 
-        if video_file:
-            frame = Image.open(video_file)
+        if video_file is not None:
+            frame = Image.open(BytesIO(video_file)) 
             frame = np.array(frame)
 
             processed_frame = processing_img(frame)
