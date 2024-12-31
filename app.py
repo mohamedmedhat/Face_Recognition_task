@@ -68,6 +68,7 @@ elif way == "Record a video":
             emotion = emotion_labels[emotion_idx[0]]
 
             st.image(frame, channels="RGB", caption=f"Predicted Emotion: {emotion}", width=270)
+            st.write(f"Predicted Emotion: {emotion}")
             st.success(f"Emotion: {emotion} detected!")
 
 st.markdown("""
