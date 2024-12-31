@@ -3,11 +3,18 @@ from tensorflow.keras.models import load_model
 import numpy as np
 from PIL import Image
 import cv2
-import time
 from helper import processing_img
 
 model = load_model("./models/model.keras")
-emotion_labels = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
+emotion_labels = {
+    0: "Anger",
+    1: "Disgust",
+    2: "Fear",
+    3: "Happiness",
+    4: "Sadness",
+    5: "Surprise",
+    6: "Neutral"
+}
 
 st.set_page_config(page_title="Emotion Recognition", page_icon="😊", layout="wide")
 st.title("Face Expression Recognition App")
@@ -39,9 +46,7 @@ if way == "Upload an image":
 
         progress.progress(100)
 
-        st.image(img, caption="Uploaded Image", use_container_width=False, width=270)
-
-        st.write(f"Predicted Emotion: {emotion}")
+        st.image(img, caption="Uploaded Image", use_column_width=False, width=270)
         st.success(f"Emotion: {emotion} detected!")
 
 elif way == "Record a video":
@@ -63,7 +68,6 @@ elif way == "Record a video":
             emotion = emotion_labels[emotion_idx[0]]
 
             st.image(frame, channels="RGB", caption=f"Predicted Emotion: {emotion}", width=270)
-            st.write(f"Predicted Emotion: {emotion}")
             st.success(f"Emotion: {emotion} detected!")
 
 st.markdown("""
