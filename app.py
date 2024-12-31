@@ -39,7 +39,8 @@ if way == "Upload an image":
 
         progress.progress(100)
 
-        st.image(img, caption="Uploaded Image", use_column_width=True, width=300) 
+        st.image(img, caption="Uploaded Image", use_container_width=False, width=270)
+
         st.write(f"Predicted Emotion: {emotion}")
         st.success(f"Emotion: {emotion} detected!")
 
@@ -60,9 +61,10 @@ elif way == "Record a video":
             pred = model.predict(processed_frame)
             emotion_idx = np.argmax(pred, axis=1)
             emotion = emotion_labels[emotion_idx[0]]
-            
-            st.image(frame, channels="RGB", caption=f"Predicted Emotion: {emotion}", width=300)
-            time.sleep(0.1)
+
+            st.image(frame, channels="RGB", caption=f"Predicted Emotion: {emotion}", width=270)
+            st.write(f"Predicted Emotion: {emotion}")
+            st.success(f"Emotion: {emotion} detected!")
 
 st.markdown("""
     <footer style="font-size: 14px; text-align: center; padding-top: 20px; color: #777;">
