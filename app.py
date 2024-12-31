@@ -7,7 +7,7 @@ import time
 from helper import processing_img
 
 model = load_model("./models/model.keras")
-emotion_labels = ["Happy", "Sad", "Angry", "Surprised", "Disgusted", "Neutral"]
+emotion_labels = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
 
 st.set_page_config(page_title="Emotion Recognition", page_icon="😊", layout="wide")
 st.title("Face Expression Recognition App")
@@ -74,7 +74,7 @@ if way == "Upload an image":
 
         progress.progress(100)
 
-        st.image(img, caption="Uploaded Image", use_column_width=True)
+        st.image(img, caption="Uploaded Image", use_container_width=True)
 
         st.markdown("""
     <style>
@@ -98,24 +98,46 @@ elif way == "Record a video":
     if start_button:
         st.toast("Video capture started!")
 
-        cap = cv2.VideoCapture(0)
-        stframe = st.empty()
+        video_file = st.camera_input("Take a picture")
 
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
+        if video_file:
+            frame = Image.open(video_file)
+            frame = np.array(frame)
 
             processed_frame = processing_img(frame)
             pred = model.predict(processed_frame)
             emotion_idx = np.argmax(pred, axis=1)
             emotion = emotion_labels[emotion_idx[0]]
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            stframe.image(frame_rgb, channels="RGB", caption=f"Predicted Emotion: {emotion}", use_column_width=True)
-
+            
+            st.image(frame, channels="RGB", caption=f"Predicted Emotion: {emotion}", use_column_width=True)
             time.sleep(0.1)
 
-        cap.release()
+# ! this didn't worked in the streamlit
+# elif way == "Record a video":
+#     st.text("Click below to start video capture.")
+#     start_button = st.button("Start Video Capture")
+
+#     if start_button:
+#         st.toast("Video capture started!")
+
+#         cap = cv2.VideoCapture(0)
+#         stframe = st.empty()
+
+#         while cap.isOpened():
+#             ret, frame = cap.read()
+#             if not ret:
+#                 break
+
+#             processed_frame = processing_img(frame)
+#             pred = model.predict(processed_frame)
+#             emotion_idx = np.argmax(pred, axis=1)
+#             emotion = emotion_labels[emotion_idx[0]]
+#             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#             stframe.image(frame_rgb, channels="RGB", caption=f"Predicted Emotion: {emotion}", use_column_width=True)
+
+#             time.sleep(0.1)
+
+#         cap.release()
 
 st.markdown("""
     <footer class="footer">
