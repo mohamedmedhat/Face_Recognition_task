@@ -26,7 +26,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-way = st.radio("Choose how to provide input:", ("Upload an image", "Record a video"))
+way = st.radio("Choose how to provide input:", ("Upload an image", "Take an image"))
 
 if way == "Upload an image":
     image_file = st.file_uploader("Choose an image...", type=["jpg", "png", "jpeg"])
@@ -50,12 +50,12 @@ if way == "Upload an image":
         st.image(img, caption="Uploaded Image", use_container_width=False, width=270)
         st.success(f"Emotion: {emotion} detected!")
 
-elif way == "Record a video":
-    st.text("Click below to start video capture.")
-    start_button = st.button("Start Video Capture")
+elif way == "Take an image":
+    st.text("Click below to start take an image.")
+    start_button = st.button("Start Image Capture")
 
     if start_button:
-        st.toast("Video capture started!")
+        st.toast("Image capture started!")
 
         video_file = st.camera_input("Take a picture")
 
@@ -68,8 +68,7 @@ elif way == "Record a video":
             emotion_idx = np.argmax(pred, axis=1)
             emotion = emotion_labels[emotion_idx[0]]
 
-            st.image(frame, channels="RGB", caption=f"Predicted Emotion: {emotion}", width=270)
-            st.write(f"Predicted Emotion: {emotion}")
+            st.image(frame, caption=f"Predicted Emotion: {emotion}", width=270)
             st.success(f"Emotion: {emotion} detected!")
 
 st.markdown("""
