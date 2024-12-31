@@ -46,7 +46,7 @@ if way == "Upload an image":
 
         progress.progress(100)
 
-        st.image(img, caption="Uploaded Image", use_column_width=False, width=270)
+        st.image(img, caption="Uploaded Image", use_container_width=False, width=270)
         st.success(f"Emotion: {emotion} detected!")
 
 elif way == "Record a video":
