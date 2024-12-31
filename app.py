@@ -91,28 +91,6 @@ if way == "Upload an image":
         st.write(f"Predicted Emotion: {emotion}")
         st.success(f"Emotion: {emotion} detected!")
 
-# elif way == "Record a video":
-#     st.text("Click below to start video capture.")
-#     start_button = st.button("Start Video Capture")
-
-#     if start_button:
-#         st.toast("Video capture started!")
-
-#         video_file = st.camera_input("Take a picture")
-
-#         if video_file:
-#             frame = Image.open(video_file)
-#             frame = np.array(frame)
-
-#             processed_frame = processing_img(frame)
-#             pred = model.predict(processed_frame)
-#             emotion_idx = np.argmax(pred, axis=1)
-#             emotion = emotion_labels[emotion_idx[0]]
-            
-#             st.image(frame, channels="RGB", caption=f"Predicted Emotion: {emotion}", use_column_width=True)
-#             time.sleep(0.1)
-
-# ! this didn't worked in the streamlit
 elif way == "Record a video":
     st.text("Click below to start video capture.")
     start_button = st.button("Start Video Capture")
@@ -120,24 +98,46 @@ elif way == "Record a video":
     if start_button:
         st.toast("Video capture started!")
 
-        cap = cv2.VideoCapture(0)
-        stframe = st.empty()
+        video_file = st.camera_input("Take a picture")
 
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
+        if video_file:
+            frame = Image.open(video_file)
+            frame = np.array(frame)
 
             processed_frame = processing_img(frame)
             pred = model.predict(processed_frame)
             emotion_idx = np.argmax(pred, axis=1)
             emotion = emotion_labels[emotion_idx[0]]
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            stframe.image(frame_rgb, channels="RGB", caption=f"Predicted Emotion: {emotion}", use_column_width=True)
-
+            
+            st.image(frame, channels="RGB", caption=f"Predicted Emotion: {emotion}", use_column_width=True)
             time.sleep(0.1)
 
-        cap.release()
+# ! this didn't worked in the streamlit
+# elif way == "Record a video":
+#     st.text("Click below to start video capture.")
+#     start_button = st.button("Start Video Capture")
+
+#     if start_button:
+#         st.toast("Video capture started!")
+
+#         cap = cv2.VideoCapture(0)
+#         stframe = st.empty()
+
+#         while cap.isOpened():
+#             ret, frame = cap.read()
+#             if not ret:
+#                 break
+
+#             processed_frame = processing_img(frame)
+#             pred = model.predict(processed_frame)
+#             emotion_idx = np.argmax(pred, axis=1)
+#             emotion = emotion_labels[emotion_idx[0]]
+#             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#             stframe.image(frame_rgb, channels="RGB", caption=f"Predicted Emotion: {emotion}", use_column_width=True)
+
+#             time.sleep(0.1)
+
+#         cap.release()
 
 st.markdown("""
     <footer class="footer">
